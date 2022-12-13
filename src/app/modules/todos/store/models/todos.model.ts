@@ -7,5 +7,6 @@ export interface Todo {
 
 export interface TodosStateModel {
   todos: Todo[];
+  todo_selected: Todo | null;
   loading: boolean;
 }

@@ -1,0 +1,16 @@
+<div class="flex justify-center items-center w-screen h-screen">
+  <div
+    class="bg-white shadow-md rounded-md flex flex-col justify-center items-center gap-5 px-5 py-5"
+  >
+    <ng-container *ngIf="!(loading$ | async); else loading">
+      <ng-container *ngIf="todoSelected$ | async as todo">
+        <p>{{ todo.subject || "-" }}</p>
+        <p>{{ todo.detail || "-" }}</p>
+        <p>{{ todo.is_complete ? "สำเร็จ" : "ยังไม่สำเร็จ" }}</p>
+      </ng-container>
+    </ng-container>
+    <ng-template #loading>
+      <p>loading...</p>
+    </ng-template>
+  </div>
+</div>

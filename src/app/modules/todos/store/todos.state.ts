@@ -15,6 +15,7 @@ import {
   RemoveTodoFailed,
   RemoveTodoSuccess,
 } from './actions/remove-todo.action';
+import { ViewTodo, ViewTodoEffect } from './actions/view-todo.action';
 
 import { Injectable } from '@angular/core';
 import { TodosService } from './../todos.service';
@@ -22,6 +23,7 @@ import { TodosStateModel } from './models/todos.model';
 
 const initial: TodosStateModel = {
   todos: [],
+  todo_selected: null,
   loading: false,
 };
 
@@ -85,5 +87,10 @@ export class TodosState {
   @Action(RemoveTodoFailed)
   private removeTodoFailed(ctx: StateContext<TodosStateModel>) {
     return;
+  }
+
+  @Action(ViewTodo)
+  private viewTodo(ctx: StateContext<TodosStateModel>, action: ViewTodo) {
+    return ViewTodoEffect.viewTodo(ctx, action);
   }
 }

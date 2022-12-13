@@ -39,8 +39,27 @@
       <span class="w-[20%]">{{
         item.is_complete ? "สำเร็จ" : "ยังไม่สำเร็จ"
       }}</span>
-      <div class="w-[20%]">
-        <button type="button" class="bg-red-200 rounded-md shadow-md px-5 py-3" (click)="remove(item.id)">
+      <div class="w-[20%] flex justify-center items-center gap-4">
+        <button
+          type="button"
+          class="bg-green-200 rounded-md shadow-md px-5 py-3"
+          (click)="view(item.id)"
+        >
+          View
+        </button>
+        <button
+          type="button"
+          class="bg-yellow-200 rounded-md shadow-md px-5 py-3"
+          (click)="edit(item)"
+          [disabled]="true"
+        >
+          Edit
+        </button>
+        <button
+          type="button"
+          class="bg-red-200 rounded-md shadow-md px-5 py-3"
+          (click)="remove(item.id)"
+        >
           Remove
         </button>
       </div>

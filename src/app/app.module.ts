@@ -8,6 +8,8 @@ import { states } from './shared/stores';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routing';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { RouterStateSerializer } from '@ngxs/router-plugin';
+import { CustomRouterStateSerializer } from './shared/stores/router/router.serializer';
 
 @NgModule({
   imports: [
@@ -18,6 +20,9 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
     // Ngxs
     NgxsModule.forRoot(states),
     NgxsReduxDevtoolsPluginModule.forRoot(),
+  ],
+  providers: [
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],

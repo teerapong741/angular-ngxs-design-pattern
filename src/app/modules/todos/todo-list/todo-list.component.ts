@@ -1,3 +1,5 @@
+import { Router, ActivatedRoute } from '@angular/router';
+import { ViewTodo } from '../store/actions/view-todo.action';
 import {
   AddTodoPayload,
   RemoveTodoPayload,
@@ -7,7 +9,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { RemoveTodo, Todo } from '../store';
+import { EditModeTodo, RemoveTodo, Todo } from '../store';
 import { TodosSelectors } from '../store/selectors/todos.selectors';
 
 @Component({
@@ -30,9 +32,21 @@ export class TodoListComponent {
     }),
   });
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   //** Logic Functions */
+  view(id: string): void {
+    this.router.navigate(['./../', id], { relativeTo: this.route });
+  }
+
+  edit(item: Todo): void {
+    this.store.dispatch(new EditModeTodo(item));
+  }
+
   remove(id: string): void {
     const payload: RemoveTodoPayload = {
       id,
