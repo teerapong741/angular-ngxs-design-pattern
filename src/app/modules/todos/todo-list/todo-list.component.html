@@ -1,0 +1,54 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  class="flex justify-center items-center gap-5"
+>
+  <input
+    type="text"
+    class="rounded-md shadow-md px-3 py-3 outline-none"
+    placeholder="Enter Subject"
+    formControlName="subject"
+  />
+  <input
+    type="text"
+    class="rounded-md shadow-md px-3 py-3 outline-none"
+    placeholder="Enter Detail"
+    formControlName="detail"
+  />
+  <button type="submit" class="bg-green-200 rounded-md shadow-md px-5 py-3">
+    Add
+  </button>
+</form>
+
+<div class="flex flex-col justify-center items-center gap-5 m-5">
+  <div
+    class="h-8 w-full bg-slate-400 shadow-md rounded-md flex justify-around items-center text-center"
+  >
+    <span class="w-[20%]">ลำดับ</span>
+    <span class="w-[40%]">หัวข้อ</span>
+    <span class="w-[20%]">สถานะ</span>
+    <span class="w-[20%]">Actions</span>
+  </div>
+  <ng-container *ngIf="!(loading$ | async); else loading">
+    <div
+      *ngFor="let item of todoList$ | async; let i = index"
+      class="h-8 w-full bg-slate-200 shadow-md rounded-md flex justify-around items-center text-center py-5 px-2"
+    >
+      <span class="w-[20%]">{{ i + 1 }}</span>
+      <span class="w-[40%]">{{ item.subject }}</span>
+      <span class="w-[20%]">{{
+        item.is_complete ? "สำเร็จ" : "ยังไม่สำเร็จ"
+      }}</span>
+      <div class="w-[20%]">
+        <button type="button" class="bg-red-200 rounded-md shadow-md px-5 py-3" (click)="remove(item.id)">
+          Remove
+        </button>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="text-center h-8 w-full bg-slate-200 shadow-md rounded-md">
+      <p class="text-lg">loading...</p>
+    </div>
+  </ng-template>
+</div>
