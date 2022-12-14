@@ -1,21 +1,26 @@
-import { TodosSelectors } from './store/selectors/todos.selectors';
-import { Store } from '@ngxs/store';
-import { Injectable } from '@angular/core';
 import {
+  AddTodoPayload,
+  AddTodoResponse,
+  EditTodoPayload,
+  EditTodoResponse,
+  GetTodosResponse,
+  RemoveTodoPayload,
+  RemoveTodoResponse,
+} from './store/models/payload.model';
+import {
+  Observable,
   catchError,
   interval,
-  Observable,
   of,
   switchMap,
   take,
   throwError,
 } from 'rxjs';
-import { Todo } from './store';
-import {
-  AddTodoPayload,
-  EditTodoPayload,
-  RemoveTodoPayload,
-} from './store/models/payload.model';
+
+import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { TodosSelectors } from './store/selectors/todos.selectors';
+import { Response } from 'src/app/shared/interfaces/response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -23,19 +28,26 @@ import {
 export class TodosService {
   constructor(private store: Store) {}
 
-  get(options?: { delay?: number; getError?: boolean }): Observable<Todo[]> {
+  get(options?: {
+    delay?: number;
+    getError?: boolean;
+  }): Observable<Response<GetTodosResponse>> {
     return interval(options?.delay || 0).pipe(
       take(1),
       catchError((err) => throwError(() => err)),
       switchMap(() => {
-        const TO_DOS: Todo[] = [
+        const TO_DOS: GetTodosResponse = [
           { id: '1', detail: '', is_complete: false, subject: 'test' },
         ];
         if (options?.getError) {
           return throwError(() => 'error');
         }
 
-        return of(TO_DOS);
+        return of({
+          code_status: '200',
+          message: 'SUCCESS',
+          data: TO_DOS,
+        });
       })
     );
   }
@@ -43,7 +55,7 @@ export class TodosService {
   add(
     payload: AddTodoPayload,
     options?: { delay?: number; getError?: boolean }
-  ): Observable<Todo> {
+  ): Observable<Response<AddTodoResponse>> {
     return interval(options?.delay || 0).pipe(
       take(1),
       catchError((err) => throwError(() => err)),
@@ -54,7 +66,11 @@ export class TodosService {
 
         const todoList = this.store.selectSnapshot(TodosSelectors.todoList);
         const newId = (todoList.length + 1).toString();
-        return of({ id: newId, ...payload });
+        return of({
+          code_status: '200',
+          message: 'SUCCESS',
+          data: { id: newId, ...payload },
+        });
       })
     );
   }
@@ -62,7 +78,7 @@ export class TodosService {
   edit(
     payload: EditTodoPayload,
     options?: { delay?: number; getError?: boolean }
-  ): Observable<Todo> {
+  ): Observable<Response<EditTodoResponse>> {
     return interval(options?.delay || 0).pipe(
       take(1),
       catchError((err) => throwError(() => err)),
@@ -74,7 +90,11 @@ export class TodosService {
           return throwError(() => 'error');
         }
 
-        return of({ ...todo, ...payload });
+        return of({
+          code_status: '200',
+          message: 'SUCCESS',
+          data: { ...todo, ...payload },
+        });
       })
     );
   }
@@ -82,7 +102,7 @@ export class TodosService {
   remove(
     payload: RemoveTodoPayload,
     options?: { delay?: number; getError?: boolean }
-  ): Observable<Todo> {
+  ): Observable<Response<RemoveTodoResponse>> {
     return interval(options?.delay || 0).pipe(
       take(1),
       catchError((err) => throwError(() => err)),
@@ -94,7 +114,11 @@ export class TodosService {
           return throwError(() => 'error');
         }
 
-        return of(todo);
+        return of({
+          code_status: '200',
+          message: 'SUCCESS',
+          data: todo,
+        });
       })
     );
   }

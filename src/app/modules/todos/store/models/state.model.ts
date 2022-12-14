@@ -1,9 +1,4 @@
-export interface Todo {
-  id: string;
-  subject: string;
-  detail: string;
-  is_complete: boolean;
-}
+import { Todo } from './todo.model';
 
 export interface TodosStateModel {
   todos: Todo[];

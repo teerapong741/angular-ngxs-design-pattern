@@ -1,25 +1,32 @@
 import { Action, State, StateContext } from '@ngxs/store';
 import {
   AddTodo,
-  AddTodoEffect,
   AddTodoFailed,
   AddTodoSuccess,
-  GetTodoEffect,
   GetTodoList,
   GetTodoListFailed,
   GetTodoListSuccess,
   RemoveTodo,
-  RemoveTodoEffect,
 } from './actions';
+import {
+  EditTodo,
+  EditTodoFailed,
+  EditTodoSuccess,
+} from './actions/edit-todo.action';
 import {
   RemoveTodoFailed,
   RemoveTodoSuccess,
 } from './actions/remove-todo.action';
-import { ViewTodo, ViewTodoEffect } from './actions/view-todo.action';
 
+import { AddTodoEffect } from './effects';
+import { EditTodoEffect } from './effects/edit-todo.effect';
+import { GetTodoEffect } from './effects/get-todo.effect';
 import { Injectable } from '@angular/core';
+import { RemoveTodoEffect } from './effects/remove-todo.effect';
 import { TodosService } from './../todos.service';
-import { TodosStateModel } from './models/todos.model';
+import { TodosStateModel } from './models/state.model';
+import { ViewTodo } from './actions/view-todo.action';
+import { ViewTodoEffect } from './effects/view-todo.effect';
 
 const initial: TodosStateModel = {
   todos: [],
@@ -33,11 +40,27 @@ const initial: TodosStateModel = {
 })
 @Injectable()
 export class TodosState {
-  constructor(private _todosService: TodosService) {}
+  constructor(
+    private _addTodoEffect: AddTodoEffect,
+    private _editTodoEffect: EditTodoEffect,
+    private _getTodoEffect: GetTodoEffect,
+    private _removeTodoEffect: RemoveTodoEffect,
+    private _viewTodoEffect: ViewTodoEffect,
+    private _todosService: TodosService
+  ) {}
 
+  /**
+   *
+   * @GetTodo
+   *
+   * @action get list
+   * @action get success
+   * @action get failed
+   *
+   */
   @Action(GetTodoList)
   private getTodoList(ctx: StateContext<TodosStateModel>) {
-    return GetTodoEffect.get(ctx, this._todosService);
+    return this._getTodoEffect.get(ctx);
   }
 
   @Action(GetTodoListSuccess)
@@ -45,17 +68,26 @@ export class TodosState {
     ctx: StateContext<TodosStateModel>,
     action: GetTodoListSuccess
   ) {
-    return GetTodoEffect.getSuccess(ctx, action, this._todosService);
+    return this._getTodoEffect.getSuccess(ctx, action);
   }
 
   @Action(GetTodoListFailed)
   private getTodoListFailed(ctx: StateContext<TodosStateModel>) {
-    return GetTodoEffect.getFailed(ctx, this._todosService);
+    return this._getTodoEffect.getFailed(ctx);
   }
 
+  /**
+   *
+   * @AddTodo
+   *
+   * @action add todo
+   * @action add todo success
+   * @action add todo failed
+   *
+   */
   @Action(AddTodo)
   private addTodo(ctx: StateContext<TodosStateModel>, action: AddTodo) {
-    return AddTodoEffect.addTodo(ctx, action, this._todosService);
+    return this._addTodoEffect.addTodo(ctx, action);
   }
 
   @Action(AddTodoSuccess)
@@ -63,7 +95,7 @@ export class TodosState {
     ctx: StateContext<TodosStateModel>,
     action: AddTodoSuccess
   ) {
-    return AddTodoEffect.addSuccess(ctx, action, this._todosService);
+    return this._addTodoEffect.addSuccess(ctx, action);
   }
 
   @Action(AddTodoFailed)
@@ -71,9 +103,45 @@ export class TodosState {
     return;
   }
 
+  /**
+   *
+   * @EditTodo
+   *
+   * @action edit todo
+   * @action edit todo success
+   * @action edit todo failed
+   *
+   */
+  @Action(EditTodo)
+  private editTodo(ctx: StateContext<TodosStateModel>, action: EditTodo) {
+    return this._editTodoEffect.editTodo(ctx, action);
+  }
+
+  @Action(EditTodoSuccess)
+  private editTodoSuccess(
+    ctx: StateContext<TodosStateModel>,
+    action: EditTodoSuccess
+  ) {
+    return this._editTodoEffect.editTodoSuccess(ctx, action);
+  }
+
+  @Action(EditTodoFailed)
+  private editTodoFailed(ctx: StateContext<TodosStateModel>) {
+    return;
+  }
+
+  /**
+   *
+   * @RemoveTodo
+   *
+   * @action remove todo
+   * @action remove todo success
+   * @action remove todo failed
+   *
+   */
   @Action(RemoveTodo)
   private removeTodo(ctx: StateContext<TodosStateModel>, action: RemoveTodo) {
-    return RemoveTodoEffect.remove(ctx, action, this._todosService);
+    return this._removeTodoEffect.remove(ctx, action);
   }
 
   @Action(RemoveTodoSuccess)
@@ -81,7 +149,7 @@ export class TodosState {
     ctx: StateContext<TodosStateModel>,
     action: RemoveTodoSuccess
   ) {
-    return RemoveTodoEffect.removeSuccess(ctx, action, this._todosService);
+    return this._removeTodoEffect.removeSuccess(ctx, action);
   }
 
   @Action(RemoveTodoFailed)
@@ -89,8 +157,15 @@ export class TodosState {
     return;
   }
 
+  /**
+   *
+   * @ViewTodo
+   *
+   * @action view todo
+   *
+   */
   @Action(ViewTodo)
   private viewTodo(ctx: StateContext<TodosStateModel>, action: ViewTodo) {
-    return ViewTodoEffect.viewTodo(ctx, action);
+    return this._viewTodoEffect.viewTodo(ctx, action);
   }
 }

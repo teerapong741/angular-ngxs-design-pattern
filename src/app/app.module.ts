@@ -1,15 +1,14 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-
 import { AppComponent } from './app.component';
-import { NgxsModule } from '@ngxs/store';
-import { states } from './shared/stores';
-import { RouterModule } from '@angular/router';
-import { routes } from './app.routing';
-import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { RouterStateSerializer } from '@ngxs/router-plugin';
+import { BrowserModule } from '@angular/platform-browser';
 import { CustomRouterStateSerializer } from './shared/stores/router/router.serializer';
+import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { RouterModule } from '@angular/router';
+import { RouterStateSerializer } from '@ngxs/router-plugin';
+import { routes } from './app.routing';
+import { states } from './shared/stores';
 
 @NgModule({
   imports: [

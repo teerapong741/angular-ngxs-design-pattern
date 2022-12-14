@@ -1,7 +1,15 @@
 import { Selector } from '@ngxs/store';
 import { TodosState } from './../todos.state';
-import { TodosStateModel } from './../models/todos.model';
+import { TodosStateModel } from '../models/state.model';
 
+/**
+ * @Selectors
+ *
+ * @select todoList
+ * @select todoSelected
+ * @select loading
+ *
+ */
 export class TodosSelectors {
   @Selector([TodosState])
   static todoList(state: TodosStateModel) {

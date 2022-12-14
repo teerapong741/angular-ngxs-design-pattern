@@ -1,15 +1,15 @@
-import { Router, ActivatedRoute } from '@angular/router';
-import { ViewTodo } from '../store/actions/view-todo.action';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   AddTodoPayload,
   RemoveTodoPayload,
-} from './../store/models/payload.model';
-import { AddTodo } from './../store/actions/add-todo.action';
-import { Component } from '@angular/core';
+} from '../store/models/payload.model';
+import { EditModeTodo, RemoveTodo, Todo } from '../store';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
+
+import { AddTodo } from './../store/actions/add-todo.action';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EditModeTodo, RemoveTodo, Todo } from '../store';
 import { TodosSelectors } from '../store/selectors/todos.selectors';
 
 @Component({

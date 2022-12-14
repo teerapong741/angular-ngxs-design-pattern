@@ -1,10 +1,10 @@
-import { EditTodoPayload } from './../models/payload.model';
-import { Todo, TodosStateModel } from '..';
-import { StateContext } from '@ngxs/store';
+import { EditModeTodoPayload, EditTodoResponse } from '../models/payload.model';
+
+import { EditTodoPayload } from '../models/payload.model';
 
 export class EditModeTodo {
   static readonly type = '[Todo] Edit Mode';
-  constructor(public payload: Todo) {}
+  constructor(public payload: EditModeTodoPayload) {}
 }
 
 export class EditTodo {
@@ -14,20 +14,9 @@ export class EditTodo {
 
 export class EditTodoSuccess {
   static readonly type = '[todo] Edit Success';
-  constructor(public payload: Todo) {}
+  constructor(public payload: EditTodoResponse) {}
 }
 
 export class EditTodoFailed {
   static readonly type = '[todo] Edit Failed';
-}
-
-export namespace EditTodoEffect {
-  export function EditModeTodo(
-    ctx: StateContext<TodosStateModel>,
-    { payload }: EditModeTodo
-  ) {
-    return ctx.patchState({
-      todo_selected: payload,
-    });
-  }
 }

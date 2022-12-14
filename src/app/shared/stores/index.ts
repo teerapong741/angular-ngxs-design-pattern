@@ -1,5 +1,4 @@
 // Inside the root 'index.ts' file of our store, eg - store/index.ts
-
 import { TodosState } from '../../modules/todos/store';
 
 // Still allow other modules to take what they need, eg action & selectors
