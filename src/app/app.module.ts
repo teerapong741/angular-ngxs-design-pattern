@@ -1,6 +1,5 @@
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { CustomRouterStateSerializer } from './shared/stores/router/router.serializer';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
@@ -19,9 +18,6 @@ import { states } from './shared/stores';
     // Ngxs
     NgxsModule.forRoot(states),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-  ],
-  providers: [
-    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
